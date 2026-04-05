@@ -1,0 +1,49 @@
+{
+    "rows": 46405,
+    "columns": 9,
+    "column_names": [
+        "mileage",
+        "make",
+        "model",
+        "fuel",
+        "gear",
+        "offerType",
+        "price",
+        "hp",
+        "year"
+    ],
+    "dtypes": {
+        "mileage": "int64",
+        "make": "object",
+        "model": "object",
+        "fuel": "object",
+        "gear": "object",
+        "offerType": "object",
+        "price": "int64",
+        "hp": "float64",
+        "year": "int64"
+    },
+    "missing_values": {
+        "mileage": 0,
+        "make": 0,
+        "model": 143,
+        "fuel": 0,
+        "gear": 182,
+        "offerType": 0,
+        "price": 0,
+        "hp": 29,
+        "year": 0
+    },
+    "missing_percentage": {
+        "mileage": 0.0,
+        "make": 0.0,
+        "model": 0.31,
+        "fuel": 0.0,
+        "gear": 0.39,
+        "offerType": 0.0,
+        "price": 0.0,
+        "hp": 0.06,
+        "year": 0.0
+    },
+    "duplicate_rows": 2140
+}
