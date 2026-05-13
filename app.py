@@ -159,7 +159,7 @@ if analyze_button:
     for explanation in explanations:
         st.write(f"- {explanation}")
 
-        st.subheader("Key Value Drivers")
+    st.subheader("Key Value Drivers")
 
     drivers = []
 
