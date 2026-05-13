@@ -34,8 +34,12 @@ An end-to-end machine learning application that predicts fair market value for u
 ## Deployment
 Built as an interactive Streamlit application for real-world valuation support.
 
+## Live Demo Link
+https://used-car-ai.streamlit.app
+
 ## Future Improvements
 - XGBoost implementation
 - SHAP explainability
 - Real-time marketplace integration
 - Advanced AI recommendation engine
+
