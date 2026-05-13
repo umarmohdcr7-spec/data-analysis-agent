@@ -40,6 +40,11 @@ hp = st.sidebar.number_input("Horsepower", min_value=1, value=120)
 year = st.sidebar.number_input("Year", min_value=1990, max_value=2026, value=2018)
 
 make = st.sidebar.selectbox("Make", make_options)
+model_options = sorted(
+    df[df["make"] == make]["model"].dropna().unique().tolist()
+)
+
+model_selected = st.sidebar.selectbox("Model", model_options)
 fuel = st.sidebar.selectbox("Fuel", fuel_options)
 offer_type = st.sidebar.selectbox("Offer Type", offer_options)
 
@@ -51,6 +56,7 @@ analyze_button = st.sidebar.button("Analyze Listing")
 input_data = pd.DataFrame([{
     "mileage": mileage,
     "make": make,
+    "model": model_selected,
     "fuel": fuel,
     "offerType": offer_type,
     "hp": hp,
