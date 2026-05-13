@@ -117,24 +117,7 @@ if analyze_button:
     st.caption(
     f"Expected market range: €{lower_bound:,.0f} – €{upper_bound:,.0f}"
 )
-    st.subheader("Model Performance")
 
-    st.write("**Model Type:** Random Forest Regressor")
-    st.write("**R² Accuracy:** ≈ 0.93")
-    st.caption(
-    "Model trained on cleaned real-world automotive marketplace data with feature engineering, log-price transformation, and predictive performance optimization."
-)
-    st.subheader("Market Insights")
-
-    brand_prices = (
-    df.groupby("make")["price"]
-    .mean()
-    .sort_values(ascending=False)
-    .head(10)
-)
-
-    st.write("Top 10 brands by average listing price:")
-    st.bar_chart(brand_prices)
     if percentage_difference > 10:
         st.error(
             f"This listing appears overpriced by approximately "
@@ -206,6 +189,24 @@ if analyze_button:
         )
 
     st.write(summary)
+    st.subheader("Model Performance")
+
+    st.write("**Model Type:** Random Forest Regressor")
+    st.write("**R² Accuracy:** ≈ 0.93")
+    st.caption(
+    "Model trained on cleaned real-world automotive marketplace data with feature engineering, log-price transformation, and predictive performance optimization."
+)
+    st.subheader("Market Insights")
+
+    brand_prices = (
+    df.groupby("make")["price"]
+    .mean()
+    .sort_values(ascending=False)
+    .head(10)
+)
+
+    st.write("Top 10 brands by average listing price:")
+    st.bar_chart(brand_prices)
 
 else:
     st.info("Enter car details in the sidebar and click **Analyze Listing** to generate a valuation.")
