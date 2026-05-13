@@ -189,6 +189,34 @@ if analyze_button:
         )
 
     st.write(summary)
+    report_text = f"""
+    Used Car Valuation Report
+
+    Selected Vehicle:
+    - Make: {make}
+    - Fuel: {fuel}
+    - Offer Type: {offer_type}
+    - Year: {year}
+    - Horsepower: {hp}
+    - Mileage: {mileage:,} km
+
+    Valuation:
+    - Estimated Fair Price: €{predicted_price:,.0f}
+    - Listed Price: €{listed_price:,.0f}
+    - Expected Market Range: €{lower_bound:,.0f} – €{upper_bound:,.0f}
+    - Difference: €{difference:,.0f}
+    - Percentage Difference: {percentage_difference:.1f}%
+
+    Summary:
+    {summary}
+    """
+
+    st.download_button(
+    label="Download Valuation Report",
+    data=report_text,
+    file_name="used_car_valuation_report.txt",
+    mime="text/plain"
+)
     st.subheader("Model Performance")
 
     st.write("**Model Type:** Random Forest Regressor")
