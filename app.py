@@ -4,7 +4,7 @@ import numpy as np
 import joblib #Loads saved ML models and feature files.
 
 # Load model and feature list
-model = joblib.load("outputs/final_car_price_model.pkl")
+model = joblib.load("outputs/deploy_car_price_model.pkl")
 model_features = joblib.load("outputs/model_features.pkl")
 
 # Load cleaned dataset for dropdown options
