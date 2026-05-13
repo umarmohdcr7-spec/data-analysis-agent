@@ -36,7 +36,7 @@ st.sidebar.markdown("### Enter Vehicle Specifications")
 st.sidebar.caption("Adjust vehicle parameters to generate an AI-powered valuation.")
 
 mileage = st.sidebar.number_input("Mileage", min_value=0, value=50000)
-hp = st.sidebar.number_input("Horsepower", min_value=1, value=120)
+
 year = st.sidebar.number_input("Year", min_value=1990, max_value=2026, value=2018)
 
 make = st.sidebar.selectbox("Make", make_options)
@@ -47,6 +47,15 @@ model_options = sorted(
 model_selected = st.sidebar.selectbox("Model", model_options)
 fuel = st.sidebar.selectbox("Fuel", fuel_options)
 offer_type = st.sidebar.selectbox("Offer Type", offer_options)
+model_hp_values = df[
+    (df["make"] == make) &
+    (df["model"] == model_selected)
+]["hp"].dropna()
+
+if len(model_hp_values) > 0:
+    hp = int(model_hp_values.median())
+else:
+    hp = int(df["hp"].median())
 
 listed_price = st.sidebar.number_input("Listed Price (€)", min_value=0, value=15000)
 
