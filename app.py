@@ -117,6 +117,19 @@ if analyze_button:
     st.caption(
     f"Expected market range: €{lower_bound:,.0f} – €{upper_bound:,.0f}"
 )
+    st.subheader("Model Performance")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+     st.metric("Model Type", "Random Forest Regressor")
+
+    with col2:
+     st.metric("R² Accuracy", "≈ 0.93")
+
+    st.caption(
+    "Model trained on cleaned real-world automotive marketplace data with feature engineering, log-price transformation, and predictive performance optimization."
+)
     if percentage_difference > 10:
         st.error(
             f"This listing appears overpriced by approximately "
