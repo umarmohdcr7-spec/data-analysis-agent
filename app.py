@@ -119,14 +119,8 @@ if analyze_button:
 )
     st.subheader("Model Performance")
 
-    col1, col2 = st.columns(2)
-
-    with col1:
-     st.metric("Model Type", "Random Forest Regressor")
-
-    with col2:
-     st.metric("R² Accuracy", "≈ 0.93")
-
+    st.write("**Model Type:** Random Forest Regressor")
+    st.write("**R² Accuracy:** ≈ 0.93")
     st.caption(
     "Model trained on cleaned real-world automotive marketplace data with feature engineering, log-price transformation, and predictive performance optimization."
 )
