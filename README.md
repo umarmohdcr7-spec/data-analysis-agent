@@ -1,15 +1,20 @@
 # AI-Powered Used Car Valuation Assistant
 
-## Overview
-An end-to-end machine learning application that predicts fair market value for used vehicles and evaluates whether listings are overpriced, underpriced, or fairly valued.
+Live Demo: https://used-car-ai.streamlit.app  
+GitHub Repository: https://github.com/umarmohdcr7-spec/data-analysis-agent
 
-## Features
-- Real-time car price prediction
-- Overpriced/underpriced detection
-- Confidence interval estimation
+## Overview
+An end-to-end machine learning web application that predicts fair market prices for used vehicles and evaluates whether a listing is overpriced, underpriced, or fairly valued.
+
+## Key Features
+- Fair market price prediction
+- Overpriced / underpriced detection
+- Confidence price range
 - Valuation score
-- Explainable insights
-- Interactive Streamlit web app
+- Explainable valuation summary
+- Market insights dashboard
+- Downloadable valuation report
+- Streamlit Cloud deployment
 
 ## Tech Stack
 - Python
@@ -18,28 +23,23 @@ An end-to-end machine learning application that predicts fair market value for u
 - Scikit-learn
 - Streamlit
 - Joblib
+- Git / GitHub
 
-## Machine Learning Pipeline
-- Data cleaning & preprocessing
-- Exploratory Data Analysis (EDA)
-- Feature engineering
-- Linear Regression baseline
-- Random Forest optimization
-- Hyperparameter tuning
+## Machine Learning Workflow
+1. Data cleaning and preprocessing
+2. Exploratory Data Analysis
+3. Feature engineering
+4. Log-price transformation
+5. Linear Regression baseline
+6. Random Forest model
+7. Hyperparameter tuning
+8. Model deployment with Streamlit
 
-## Performance
+## Model Performance
 - Linear Regression: R² ≈ 0.90
 - Random Forest: R² ≈ 0.93
 
-## Deployment
-Built as an interactive Streamlit application for real-world valuation support.
-
-## Live Demo Link
-https://used-car-ai.streamlit.app
-
-## Future Improvements
-- XGBoost implementation
-- SHAP explainability
-- Real-time marketplace integration
-- Advanced AI recommendation engine
-
+## How to Run Locally
+```bash
+pip install -r requirements.txt
+streamlit run app.py
