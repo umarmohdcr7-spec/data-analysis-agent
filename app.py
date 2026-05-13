@@ -10,10 +10,19 @@ model_features = joblib.load("outputs/model_features.pkl")
 # Load cleaned dataset for dropdown options
 df = pd.read_csv("outputs/cleaned_cars_dataset.csv")
 
-st.title("AI-Powered Used Car Valuation Assistant")
-st.title("By Mohammad Umar")
-
-st.write("Estimate a fair market price and check whether a car listing is overpriced or underpriced.")
+st.markdown("""
+    <h1 style='text-align: center; font-size: 52px;'>
+        AI-Powered Used Car Valuation Assistant
+    </h1>
+    <h3 style='text-align: center; color: gray;'>
+        End-to-End Machine Learning Deployment by Mohammad Umar
+    </h3>
+    <p style='text-align: center; font-size:18px;'>
+        Estimate fair market prices, detect overpriced or underpriced listings,
+        and gain explainable valuation insights using real-world automotive data.
+    </p>
+    <hr>
+""", unsafe_allow_html=True)
 
 # Dynamic dropdowns
 make_options = sorted(df["make"].dropna().unique().tolist())
@@ -22,6 +31,9 @@ offer_options = sorted(df["offerType"].dropna().unique().tolist())
 
 # Sidebar inputs
 st.sidebar.header("Car Details")
+
+st.sidebar.markdown("### Enter Vehicle Specifications")
+st.sidebar.caption("Adjust vehicle parameters to generate an AI-powered valuation.")
 
 mileage = st.sidebar.number_input("Mileage", min_value=0, value=50000)
 hp = st.sidebar.number_input("Horsepower", min_value=1, value=120)
