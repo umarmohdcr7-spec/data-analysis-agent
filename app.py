@@ -159,6 +159,31 @@ if analyze_button:
     for explanation in explanations:
         st.write(f"- {explanation}")
 
+    st.subheader("Key Value Drivers")
+
+drivers = []
+
+if mileage > df["mileage"].median():
+    drivers.append(("High mileage", "Negative"))
+else:
+    drivers.append(("Low mileage", "Positive"))
+
+if hp > df["hp"].median():
+    drivers.append(("Above-average horsepower", "Positive"))
+else:
+    drivers.append(("Below-average horsepower", "Negative"))
+
+if year > df["year"].median():
+    drivers.append(("Newer vehicle age", "Positive"))
+else:
+    drivers.append(("Older vehicle age", "Negative"))
+
+for driver, impact in drivers:
+    if impact == "Positive":
+        st.success(f"{driver}: Positive impact on valuation")
+    else:
+        st.warning(f"{driver}: Negative impact on valuation")    
+
     # Summary
     st.subheader("Valuation Summary")
 
