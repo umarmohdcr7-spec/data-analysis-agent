@@ -101,14 +101,7 @@ if analyze_button:
 
     st.subheader("Price Comparison")
 
-    col1, col2 = st.columns(2)
-
-    with col1:
-     st.metric("Predicted Fair Price", f"€{predicted_price:,.0f}")
-
-    with col2:
-     st.metric("Listed Price", f"€{listed_price:,.0f}", delta=f"{percentage_difference:.1f}% vs fair value")
-
+    
     col1, col2 = st.columns(2)
 
     with col1:
