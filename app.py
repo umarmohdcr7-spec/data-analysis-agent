@@ -88,7 +88,14 @@ if analyze_button:
     })
 
     st.subheader("Price Comparison")
-    st.bar_chart(comparison_df.set_index("Type"))
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+     st.metric("Predicted Fair Price", f"€{predicted_price:,.0f}")
+
+    with col2:
+     st.metric("Listed Price", f"€{listed_price:,.0f}", delta=f"{percentage_difference:.1f}% vs fair value")
 
     st.write(f"Estimated Fair Price: **€{predicted_price:,.0f}**")
     st.write(f"Expected Price Range: **€{lower_bound:,.0f} – €{upper_bound:,.0f}**")
