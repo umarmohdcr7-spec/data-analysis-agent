@@ -111,14 +111,14 @@ if analyze_button:
 
     col1, col2, col3 = st.columns(3)
 
-with col1:
-    st.metric("Estimated Fair Price", f"€{predicted_price:,.0f}")
+    with col1:
+     st.metric("Estimated Fair Price", f"€{predicted_price:,.0f}")
 
-with col2:
-    st.metric("Listed Price", f"€{listed_price:,.0f}")
+    with col2:
+     st.metric("Listed Price", f"€{listed_price:,.0f}")
 
-with col3:
-    st.metric("Expected Range", f"€{lower_bound:,.0f} – €{upper_bound:,.0f}")
+    with col3:
+     st.metric("Expected Range", f"€{lower_bound:,.0f} – €{upper_bound:,.0f}")
 
     if percentage_difference > 10:
         st.error(
