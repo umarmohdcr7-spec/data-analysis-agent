@@ -177,12 +177,20 @@ if analyze_button:
         drivers.append(("Newer vehicle age", "Positive"))
     else:
         drivers.append(("Older vehicle age", "Negative"))
+    if percentage_difference > 10:
+        drivers.append(("Listed price is far above predicted fair value", "Negative"))
+    elif percentage_difference < -10:
+        drivers.append(("Listed price is below predicted fair value", "Positive"))
+    else:
+        drivers.append(("Listed price is close to predicted fair value", "Neutral"))    
 
     for driver, impact in drivers:
         if impact == "Positive":
-            st.success(f"{driver}: Positive impact on valuation")
+            st.success(f"{driver}: Positive impact")
+        elif impact == "Negative":
+            st.error(f"{driver}: Negative impact")
         else:
-            st.warning(f"{driver}: Negative impact on valuation")
+            st.info(f"{driver}: Neutral impact")
 
     # Summary
     st.subheader("Valuation Summary")
