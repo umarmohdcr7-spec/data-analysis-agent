@@ -146,15 +146,11 @@ if analyze_button:
     # Valuation score
     score = 50 + percentage_difference
     score = max(0, min(100, score))
-
     st.markdown('<div class="card">', unsafe_allow_html=True)
-
     st.subheader("Valuation Score")
     st.progress(int(score))
     st.write(f"Score: **{score:.0f}/100**")
-
     st.markdown('</div>', unsafe_allow_html=True)
-
     if score > 60:
         st.write("Higher score means the listing is more expensive than the model’s fair value estimate.")
     elif score < 40:
