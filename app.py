@@ -11,15 +11,15 @@ model_features = joblib.load("outputs/model_features.pkl")
 df = pd.read_csv("outputs/cleaned_cars_dataset.csv")
 
 st.markdown("""
-    <h1 style='text-align: center; font-size: 52px;'>
-        AI-Powered Used Car Valuation Assistant
+    <h1 style='text-align: center; font-size: 48px;'>
+        Used Car Valuation Assistant
     </h1>
     <h3 style='text-align: center; color: gray;'>
-        End-to-End Machine Learning Deployment by Mohammad Umar
+        Machine Learning-Based Vehicle Pricing & Decision Support
     </h3>
     <p style='text-align: center; font-size:18px;'>
-        Estimate fair market prices, detect overpriced or underpriced listings,
-        and gain explainable valuation insights using real-world automotive data.
+        Predict fair market value, detect overpriced or underpriced listings,
+        and make smarter purchasing decisions.
     </p>
     <hr>
 """, unsafe_allow_html=True)
@@ -268,7 +268,8 @@ if analyze_button:
     st.subheader("Model Performance")
 
     st.write("**Model Type:** Random Forest Regressor")
-    st.write("**R² Accuracy:** ≈ 0.93")
+    st.write("**R² Accuracy:** ≈ 0.94")
+    st.write("**RMSE:** ≈ 0.167")
     st.caption(
     "Model trained on cleaned real-world automotive marketplace data with feature engineering, log-price transformation, and predictive performance optimization."
 )
