@@ -3,6 +3,65 @@ import pandas as pd
 import numpy as np
 import joblib
 
+st.set_page_config(
+    page_title="Used Car Valuation Assistant",
+    page_icon="🚗",
+    layout="wide"
+)
+
+st.markdown("""
+<style>
+.main {
+    background-color: #f7f9fc;
+}
+
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    max-width: 1100px;
+}
+
+.hero {
+    background: linear-gradient(135deg, #0f172a, #1e3a8a);
+    padding: 2.2rem;
+    border-radius: 22px;
+    color: white;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.hero h1 {
+    font-size: 44px;
+    margin-bottom: 0.4rem;
+}
+
+.hero p {
+    font-size: 18px;
+    color: #dbeafe;
+}
+
+.card {
+    background-color: white;
+    padding: 1.4rem;
+    border-radius: 18px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+    margin-bottom: 1.2rem;
+}
+
+.small-muted {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.footer {
+    text-align: center;
+    color: #6b7280;
+    font-size: 13px;
+    margin-top: 3rem;
+}
+</style>
+""", unsafe_allow_html=True)
+
 # Load model and feature list
 model = joblib.load("outputs/deploy_car_price_model.pkl")
 model_features = joblib.load("outputs/model_features.pkl")
@@ -11,17 +70,10 @@ model_features = joblib.load("outputs/model_features.pkl")
 df = pd.read_csv("outputs/cleaned_cars_dataset.csv")
 
 st.markdown("""
-    <h1 style='text-align: center; font-size: 48px;'>
-        Used Car Valuation Assistant
-    </h1>
-    <h3 style='text-align: center; color: gray;'>
-        Machine Learning-Based Vehicle Pricing & Decision Support
-    </h3>
-    <p style='text-align: center; font-size:18px;'>
-        Predict fair market value, detect overpriced or underpriced listings,
-        and make smarter purchasing decisions.
-    </p>
-    <hr>
+<div class="hero">
+    <h1>Used Car Valuation Assistant</h1>
+    <p>Estimate fair market value, compare listed prices, and identify overpriced or underpriced used cars.</p>
+</div>
 """, unsafe_allow_html=True)
 
 # Dynamic dropdowns
@@ -95,9 +147,13 @@ if analyze_button:
     score = 50 + percentage_difference
     score = max(0, min(100, score))
 
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+
     st.subheader("Valuation Score")
     st.progress(int(score))
     st.write(f"Score: **{score:.0f}/100**")
+
+    st.markdown('</div>', unsafe_allow_html=True)
 
     if score > 60:
         st.write("Higher score means the listing is more expensive than the model’s fair value estimate.")
@@ -265,12 +321,12 @@ if analyze_button:
     file_name="used_car_valuation_report.txt",
     mime="text/plain"
 )
-    st.subheader("Model Performance")
+    with st.expander("Model Details"):
 
-    st.write("**Model Type:** Random Forest Regressor")
-    st.write("**R² Accuracy:** ≈ 0.94")
-    st.write("**RMSE:** ≈ 0.167")
-    st.caption(
+        st.write("**Model Type:** Random Forest Regressor")
+        st.write("**R² Accuracy:** ≈ 0.94")
+        st.write("**RMSE:** ≈ 0.167")
+        st.caption(
     "Model trained on cleaned real-world automotive marketplace data with feature engineering, log-price transformation, and predictive performance optimization."
 )
     st.subheader("Market Insights")
