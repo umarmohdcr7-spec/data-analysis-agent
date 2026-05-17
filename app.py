@@ -150,13 +150,13 @@ if analyze_button:
    
     st.subheader("Valuation Score")
 
-score_col1, score_col2 = st.columns([3, 1])
+    score_col1, score_col2 = st.columns([3, 1])
 
-with score_col1:
-    st.progress(int(score))
+    with score_col1:
+        st.progress(int(score))
 
-with score_col2:
-    st.metric("Score", f"{score:.0f}/100")
+    with score_col2:
+        st.metric("Score", f"{score:.0f}/100")
     
     if score > 60:
         st.write("Higher score means the listing is more expensive than the model’s fair value estimate.")
