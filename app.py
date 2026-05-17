@@ -41,10 +41,11 @@ st.markdown("""
 }
 
 .card {
-    background-color: white;
+    background-color: #111827;
     padding: 1.4rem;
     border-radius: 18px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+    border: 1px solid #263244;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
     margin-bottom: 1.2rem;
 }
 
