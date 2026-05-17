@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
-from openai import OpenAI
 
 st.set_page_config(
     page_title="Used Car Valuation Assistant",
@@ -10,13 +9,12 @@ st.set_page_config(
     layout="wide"
 )
 
-# Load model and feature list
+# Load model, features, and dataset
 model = joblib.load("outputs/deploy_car_price_model.pkl")
 model_features = joblib.load("outputs/model_features.pkl")
 df = pd.read_csv("outputs/cleaned_cars_dataset.csv")
 
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
-
+# Header
 st.markdown("""
 <div style="background: linear-gradient(135deg, #0f172a, #1e3a8a);
 padding: 2rem; border-radius: 18px; color: white; text-align: center; margin-bottom: 2rem;">
@@ -25,7 +23,7 @@ padding: 2rem; border-radius: 18px; color: white; text-align: center; margin-bot
 </div>
 """, unsafe_allow_html=True)
 
-# Sidebar
+# Sidebar options
 make_options = sorted(df["make"].dropna().unique().tolist())
 fuel_options = sorted(df["fuel"].dropna().unique().tolist())
 offer_options = sorted(df["offerType"].dropna().unique().tolist())
@@ -54,43 +52,6 @@ hp = int(model_hp_values.median()) if len(model_hp_values) > 0 else int(df["hp"]
 listed_price = st.sidebar.number_input("Listed Price (€)", min_value=0, value=15000)
 
 analyze_button = st.sidebar.button("Analyze Listing")
-
-
-def generate_ai_recommendation(make, model_selected, fuel, offer_type, year, mileage, hp,
-                               listed_price, predicted_price, lower_bound, upper_bound,
-                               percentage_difference):
-    prompt = f"""
-    You are a car valuation assistant. Write a concise, practical buyer recommendation.
-
-    Vehicle:
-    - Make: {make}
-    - Model: {model_selected}
-    - Fuel: {fuel}
-    - Offer type: {offer_type}
-    - Year: {year}
-    - Mileage: {mileage}
-    - Estimated horsepower: {hp}
-
-    Valuation:
-    - Listed price: €{listed_price:,.0f}
-    - Predicted fair price: €{predicted_price:,.0f}
-    - Expected market range: €{lower_bound:,.0f} – €{upper_bound:,.0f}
-    - Difference vs fair value: {percentage_difference:.1f}%
-
-    Give:
-    1. A short verdict
-    2. What the buyer should check
-    3. Whether the price looks attractive or risky
-
-    Keep it under 120 words.
-    """
-
-    response = client.responses.create(
-        model="gpt-4.1-mini",
-        input=prompt
-    )
-
-    return response.output_text
 
 
 if analyze_button:
@@ -124,8 +85,7 @@ if analyze_button:
             f"Based on the model estimate, this car appears overpriced. "
             f"The predicted fair market value is around €{predicted_price:,.0f}, "
             f"while the listed price is €{listed_price:,.0f}. "
-            f"The difference of approximately €{difference:,.0f} suggests that the listing "
-            f"price may be too high."
+            f"The difference of approximately €{difference:,.0f} suggests that the listing price may be too high."
         )
     elif percentage_difference < -10:
         summary = (
@@ -137,8 +97,7 @@ if analyze_button:
     else:
         summary = (
             f"Based on the model estimate, this car appears fairly priced. "
-            f"The listed price of €{listed_price:,.0f} is close to the predicted fair value "
-            f"of €{predicted_price:,.0f}."
+            f"The listed price of €{listed_price:,.0f} is close to the predicted fair value of €{predicted_price:,.0f}."
         )
 
     st.session_state["valuation_done"] = True
@@ -160,8 +119,10 @@ if analyze_button:
         "summary": summary
     }
 
+
 if "valuation_done" not in st.session_state:
     st.info("Enter car details in the sidebar and click **Analyze Listing** to generate a valuation.")
+
 else:
     data = st.session_state["valuation_data"]
 
@@ -285,6 +246,26 @@ else:
     st.subheader("Valuation Summary")
     st.write(data["summary"])
 
+    st.divider()
+
+    st.subheader("Buyer Recommendation")
+
+    if data["percentage_difference"] > 10:
+        st.warning(
+            "This vehicle appears overpriced. Consider negotiating the price, comparing similar listings, "
+            "reviewing service history, and checking for competing offers before making a purchase decision."
+        )
+    elif data["percentage_difference"] < -10:
+        st.success(
+            "This vehicle appears underpriced. It may represent a strong buying opportunity, but inspect the vehicle "
+            "carefully for hidden mechanical issues, accident history, and maintenance records."
+        )
+    else:
+        st.info(
+            "This vehicle appears fairly priced. Focus on vehicle condition, mileage, ownership history, "
+            "and seller credibility before proceeding."
+        )
+
     report_text = f"""
 Used Car Valuation Report
 
@@ -314,23 +295,6 @@ Summary:
         file_name="used_car_valuation_report.txt",
         mime="text/plain"
     )
-
-    st.divider()
-
-    st.subheader("AI Buyer Recommendation")
-
-    if st.button("Generate AI Recommendation"):
-        with st.spinner("Generating AI recommendation..."):
-            ai_text = generate_ai_recommendation(
-                data["make"], data["model_selected"], data["fuel"], data["offer_type"],
-                data["year"], data["mileage"], data["hp"], data["listed_price"],
-                data["predicted_price"], data["lower_bound"], data["upper_bound"],
-                data["percentage_difference"]
-            )
-
-        st.write(ai_text)
-    else:
-        st.caption("Click the button to generate an AI-powered buyer recommendation.")
 
     with st.expander("Model Details"):
         st.write("**Model Type:** Random Forest Regressor")
