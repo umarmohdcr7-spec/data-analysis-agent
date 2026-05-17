@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
+from openai import OpenAI
 
 st.set_page_config(
     page_title="Used Car Valuation Assistant",
@@ -67,6 +68,8 @@ st.markdown("""
 model = joblib.load("outputs/deploy_car_price_model.pkl")
 model_features = joblib.load("outputs/model_features.pkl")
 
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+
 # Load cleaned dataset for dropdown options
 df = pd.read_csv("outputs/cleaned_cars_dataset.csv")
 
@@ -130,6 +133,42 @@ input_encoded = pd.get_dummies(input_data)
 
 # Match training columns exactly
 input_encoded = input_encoded.reindex(columns=model_features, fill_value=0)
+
+def generate_ai_recommendation(make, model_selected, fuel, offer_type, year, mileage, hp,
+                               listed_price, predicted_price, lower_bound, upper_bound,
+                               percentage_difference):
+    prompt = f"""
+    You are a car valuation assistant. Write a concise, practical buyer recommendation.
+
+    Vehicle:
+    - Make: {make}
+    - Model: {model_selected}
+    - Fuel: {fuel}
+    - Offer type: {offer_type}
+    - Year: {year}
+    - Mileage: {mileage}
+    - Estimated horsepower: {hp}
+
+    Valuation:
+    - Listed price: €{listed_price:,.0f}
+    - Predicted fair price: €{predicted_price:,.0f}
+    - Expected market range: €{lower_bound:,.0f} – €{upper_bound:,.0f}
+    - Difference vs fair value: {percentage_difference:.1f}%
+
+    Give:
+    1. A short verdict
+    2. What the buyer should check
+    3. Whether the price looks attractive or risky
+
+    Keep it under 120 words.
+    """
+
+    response = client.responses.create(
+        model="gpt-4.1-mini",
+        input=prompt
+    )
+
+    return response.output_text
 
 if analyze_button:
     # Prediction
@@ -317,21 +356,27 @@ if analyze_button:
     Summary:
     {summary}
     """
+    st.subheader("AI Buyer Recommendation")
 
-    st.download_button(
-    label="Download Valuation Report",
-    data=report_text,
-    file_name="used_car_valuation_report.txt",
-    mime="text/plain"
-)
+    if st.button("Generate AI Recommendation"):
+     with st.spinner("Generating AI recommendation..."):
+        ai_text = generate_ai_recommendation(
+            make, model_selected, fuel, offer_type, year, mileage, hp,
+            listed_price, predicted_price, lower_bound, upper_bound,
+            percentage_difference
+        )
+        st.write(ai_text)
+    else:
+        st.caption("Click the button to generate an AI-powered buyer recommendation.")
+    
     with st.expander("Model Details"):
 
         st.write("**Model Type:** Random Forest Regressor")
         st.write("**R² Accuracy:** ≈ 0.94")
         st.write("**RMSE:** ≈ 0.167")
         st.caption(
-    "Model trained on cleaned real-world automotive marketplace data with feature engineering, log-price transformation, and predictive performance optimization."
-)
+            "Model trained on cleaned real-world automotive marketplace data with feature engineering, log-price transformation, and predictive performance optimization."
+        )
     st.subheader("Market Insights")
 
     brand_prices = (
