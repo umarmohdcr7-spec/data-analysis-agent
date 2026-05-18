@@ -37,7 +37,7 @@ An end-to-end machine learning web application that predicts fair market prices 
 
 ## Model Performance
 - Linear Regression: R² ≈ 0.90
-- Random Forest: R² ≈ 0.93
+- Random Forest: R² ≈ 0.94
 
 ## How to Run Locally
 ```bash
